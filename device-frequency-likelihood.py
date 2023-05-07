@@ -9,24 +9,28 @@ device_types = [
     ("Wireless headphones", 2.402),
 ]
 
-# Function to determine the likelihood of a device operating at a given frequency
-def likelihood(frequency):
-    # Initialize likelihood to 0
-    likelihood = 0
-    
-    # Loop through the known device types and calculate the difference between the given frequency
-    # and the operating frequency for each device. The device with the smallest difference is the 
-    # most likely to be operating at the given frequency.
+def find_closest_device(frequency):
+    """
+    Determine the most likely device operating at a given frequency.
+
+    Args:
+        frequency (float): The frequency to find the closest device for.
+
+    Returns:
+        str: The most likely device type operating at the given frequency.
+    """
+    min_diff = float('inf')
+    likely_device = None
+
     for device_type, operating_frequency in device_types:
         diff = abs(frequency - operating_frequency)
-        if diff < likelihood or likelihood == 0:
-            likelihood = diff
+        if diff < min_diff:
+            min_diff = diff
             likely_device = device_type
-    
-    # Return the most likely device type
+
     return likely_device
 
-# Test the likelihood function with some example frequencies
-print(likelihood(433.92))  # Should print "Garage door opener"
-print(likelihood(433.05))  # Should print "Wireless doorbell"
-print(likelihood(2.4))     # Should print "Wireless security camera"
+# Test the find_closest_device function with some example frequencies
+print(find_closest_device(433.92))  # Should print "Garage door opener"
+print(find_closest_device(433.05))  # Should print "Wireless doorbell"
+print(find_closest_device(2.4))     # Should print "Wireless security camera"
